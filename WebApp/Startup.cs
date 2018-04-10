@@ -26,7 +26,7 @@ namespace WebApp
         {
             services.AddMvc();
 
-            var connection = @"Server=DESKTOP-QJ6RQTH;Database=ShopMobile;Trusted_Connection=True;ConnectRetryCount=0";
+            var connection = @"Server=.;Database=ShopMobile;user id=sa;password=123456;Trusted_Connection=True;MultipleActiveResultSets=true";
             services.AddDbContext<ShopDbContext>(options => options.UseSqlServer(connection));
 
             //services.AddDbContext<ShopDbContext>(options =>

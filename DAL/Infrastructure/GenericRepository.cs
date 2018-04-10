@@ -7,7 +7,7 @@ using DataAccess;
 using DAL;
 using Microsoft.EntityFrameworkCore;
 
-namespace DAL
+namespace DAL.Infrastructure
 {
     public class GenericRepository<TEntity> : IRepository<TEntity> where TEntity : class
     {
@@ -72,7 +72,7 @@ namespace DAL
             dbSet.Add(entity);
         }
 
-        public virtual void Delete(string id)
+        public virtual void Delete(object id)
         {
             TEntity entityToDelete = dbSet.Find(id);
             Delete(entityToDelete);

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DAL;
+using DAL.Infrastructure;
 using DataAccess.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,14 +20,11 @@ namespace WebApp.Controllers
         {
             try
             {
-
-
                 var list = unitOfWork.PostRepository.GetAll();
                 return Ok(list);
             }
             catch (Exception ex)
             {
-
                 throw;
             }
         }

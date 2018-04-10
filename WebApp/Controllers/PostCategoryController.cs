@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DAL;
+using DAL.Infrastructure;
 using DataAccess.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -31,11 +31,11 @@ namespace WebApp.Controllers
         }
 
         [HttpGet("GetByID")]
-        public IActionResult GetByID(string id)
+        public IActionResult GetByID(int id)
         {
             try
             {
-                var item = unitOfWork.PostCategoryRepository.GetByID(id);
+                var item = unitOfWork.PostCategoryRepository.Get(x=>x.ID==id);
                 return Ok(item);
             }
             catch (Exception ex)
@@ -49,7 +49,7 @@ namespace WebApp.Controllers
         {
             try
             {
-                var item = unitOfWork.PostCategoryRepository.GetAll();
+                var item = unitOfWork.PostCategoryRepository.GetAll();              
                 unitOfWork.PostCategoryRepository.Add(PostCategory);
                 unitOfWork.SaveChanges();
                 return Ok(item);

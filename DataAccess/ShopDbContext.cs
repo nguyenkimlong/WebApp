@@ -62,7 +62,7 @@ namespace DataAccess
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(@"Server=DESKTOP-QJ6RQTH;Database=ShopMobile;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer(@"Server=.;Database=ShopMobile;user id=sa;password=123456;Trusted_Connection=True;MultipleActiveResultSets=true");
             }
         }
 

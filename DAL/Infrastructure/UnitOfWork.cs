@@ -4,7 +4,7 @@ using DataAccess;
 using DataAccess.Model;
 using Microsoft.EntityFrameworkCore;
 
-namespace DAL
+namespace DAL.Infrastructure
 {
     public class UnitOfWork : IUnitOfWork, IDisposable
     {
