@@ -20,6 +20,8 @@ namespace WebApp.Controllers
         {
             try
             {
+
+
                 var list = unitOfWork.PostRepository.GetAll();
                 return Ok(list);
             }
