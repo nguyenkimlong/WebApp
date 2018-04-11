@@ -25,6 +25,8 @@ namespace DAL.Infrastructure
             }
 
 
+
+
         }
 
         public GenericRepository<PostCategory> PostCategoryRepository

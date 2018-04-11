@@ -16,4 +16,6 @@ namespace DAL.Infrastructure
         void Update(TEntity entityToUpdate);     
         void Add(TEntity entity);
     }
+
+
 }
