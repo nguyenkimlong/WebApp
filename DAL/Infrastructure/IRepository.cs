@@ -10,12 +10,13 @@ namespace DAL.Infrastructure
     {
         IEnumerable<TEntity> GetAll(string[] includes = null);
         IEnumerable<TEntity> Get(Expression<Func<TEntity, bool>> filter, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy, string includeProperties);
-        TEntity GetByID(object id);        
+        TEntity GetByID(object id);    
+        IQueryable<TEntity> GetQuery<TEntity>() where TEntity : class;
+        IQueryable<TEntity> GetQuery<TEntity>(params string[] tables) where TEntity : class;
         void Delete(object id);
         void Delete(TEntity entityToDelete);
         void Update(TEntity entityToUpdate);     
-        void Add(TEntity entity);
+        void Add(TEntity entity);      
     }
-
 
 }

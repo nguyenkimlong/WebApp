@@ -5,9 +5,9 @@ using System.Text;
 
 namespace DAL.Infrastructure
 {
-    interface IUnitOfWork
+    public interface IUnitOfWork : IDisposable
     {
-      
+        GenericRepository<TEntity> Repository<TEntity>() where TEntity : class;
         /// <summary>
         /// Commits all changes
         /// </summary>

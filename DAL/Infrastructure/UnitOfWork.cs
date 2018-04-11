@@ -1,50 +1,58 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using DataAccess;
 using DataAccess.Model;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace DAL.Infrastructure
 {
-    public class UnitOfWork : IUnitOfWork, IDisposable
+    public class UnitOfWork : IUnitOfWork
     {
         private ShopDbContext context = new ShopDbContext();
-        private GenericRepository<Post> postRepository;     
-        private GenericRepository<PostCategory> postCategory;
+        private Dictionary<string, dynamic> _repositories;
 
-        public GenericRepository<Post> PostRepository
+        public UnitOfWork(ShopDbContext context)
         {
-            get
+            if (context == null || this.disposed)
             {
-
-                if (this.postRepository == null)
-                {
-                    this.postRepository = new GenericRepository<Post>(context);
-                }
-                return postRepository;
+                context = new ShopDbContext();
+                this._repositories = null;
             }
-
-
-
-
+            this.context = context;
         }
 
-        public GenericRepository<PostCategory> PostCategoryRepository
-        {
-            get
-            {
 
-                if (this.postCategory == null)
-                {
-                    this.postCategory = new GenericRepository<PostCategory>(context);
-                }
-                return postCategory;
+        public GenericRepository<TEntity> Repository<TEntity>() where TEntity : class
+        {            
+            if (_repositories == null)
+            {
+                _repositories = new Dictionary<string, dynamic>();
             }
+
+            var type = typeof(TEntity).Name;
+            if (_repositories.ContainsKey(type))
+            {
+                return (GenericRepository<TEntity>)_repositories[type];
+            }
+
+            _repositories.Add(type, new GenericRepository<TEntity>(context));
+
+
+            return _repositories[type];
         }
 
         public void SaveChanges()
         {
             context.SaveChanges();
+            foreach (var dbEntityEntry in context.ChangeTracker.Entries())
+            {
+                if (dbEntityEntry.Entity != null)
+                {
+                    dbEntityEntry.State = EntityState.Detached;
+                }
+            }
         }
 
         private bool disposed = false;

@@ -7,6 +7,7 @@ using DataAccess;
 using DAL;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace DAL.Infrastructure
 {
     public class GenericRepository<TEntity> : IRepository<TEntity> where TEntity : class
@@ -61,6 +62,32 @@ namespace DAL.Infrastructure
 
             return context.Set<TEntity>().AsQueryable();
         }
+        public IQueryable<TEntity> GetQuery<TEntity>() where TEntity : class
+        {
+            return context.Set<TEntity>().AsNoTracking();
+        }
+
+
+        /// <summary>
+        /// Get Entity queryable & Include all input tables
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="tables"></param>
+        /// <returns></returns>
+        public IQueryable<TEntity> GetQuery<TEntity>(params string[] tables) where TEntity : class
+        {
+            var context = GetQuery<TEntity>();
+            if (tables != null)
+            {
+                foreach (string table in tables)
+                {
+                    context = (context).Include(table);
+                }
+            }
+
+            return context;
+        }
+
 
         public virtual TEntity GetByID(object id)
         {
@@ -92,5 +119,26 @@ namespace DAL.Infrastructure
             dbSet.Attach(entityToUpdate);
             context.Entry(entityToUpdate).State = EntityState.Modified;
         }
+        //public TObject AttachToAndGetIfExists<TObject>(TObject entity) where TObject : class
+        //{
+        //    var objContext = ((IObjectContextAdapter)context).ObjectContext;
+        //    var objSet = objContext.CreateObjectSet<TObject>();
+        //    var entityKey = objContext.CreateEntityKey(objSet.EntitySet.Name, entity);
+
+        //    var original = this.context.Set<TObject>().Find(entityKey.EntityKeyValues[0].Value);
+
+        //    if (original != null)
+        //    {
+        //        this.context.Entry<TObject>(original).CurrentValues.SetValues(entity);
+        //        return null;
+        //    }
+        //    else
+        //    {
+        //        objContext.AddObject(entityKey.EntitySetName, entity);
+        //        return null;
+        //    }
+        //    return null;
+        //}
+
     }
 }

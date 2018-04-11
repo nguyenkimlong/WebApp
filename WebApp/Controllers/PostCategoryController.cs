@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Business.IService;
 using DAL.Infrastructure;
 using DataAccess.Model;
 using Microsoft.AspNetCore.Http;
@@ -13,14 +14,20 @@ namespace WebApp.Controllers
     [Route("api/PostCategory")]
     public class PostCategoryController : Controller
     {
-        private UnitOfWork unitOfWork = new UnitOfWork();
+        // private UnitOfWork unitOfWork = new UnitOfWork();
+        private IPostCategoryService _PostCategoryService;
+
+        public PostCategoryController(IPostCategoryService PostCategoryService)
+        {
+            _PostCategoryService = PostCategoryService;
+        }
 
         [HttpGet("Get")]
         public IActionResult GetAll()
         {
             try
             {
-                var list = unitOfWork.PostCategoryRepository.GetAll();
+                var list = _PostCategoryService.GetAll();
                 return Ok(list);
             }
             catch (Exception ex)
@@ -35,7 +42,7 @@ namespace WebApp.Controllers
         {
             try
             {
-                var item = unitOfWork.PostCategoryRepository.Get(x=>x.ID==id);
+                var item = _PostCategoryService.GetByID(id);
                 return Ok(item);
             }
             catch (Exception ex)
@@ -49,9 +56,8 @@ namespace WebApp.Controllers
         {
             try
             {
-                var item = unitOfWork.PostCategoryRepository.GetAll();              
-                unitOfWork.PostCategoryRepository.Add(PostCategory);
-                unitOfWork.SaveChanges();
+                var item = _PostCategoryService.Add(PostCategory);
+                _PostCategoryService.SaveChange();
                 return Ok(item);
             }
             catch (Exception ex)
@@ -64,17 +70,24 @@ namespace WebApp.Controllers
         {
             try
             {
-                var item = unitOfWork.PostCategoryRepository.GetByID(PostCategory.ID);
                 if (PostCategory != null)
                 {
-                    unitOfWork.PostCategoryRepository.Update(PostCategory);
-                    unitOfWork.SaveChanges();
+                    _PostCategoryService.Update(id, PostCategory);
+                    var a = (new PostCategory
+                    {
+                        ID=3,
+                        Alias ="1233",
+                        Status= true,
+                        Name="long1123"
+                    }
+                    );
+                    _PostCategoryService.Update(id, a);
+                    _PostCategoryService.SaveChange();
                 }
-                return Ok(PostCategory);
+                return Ok();
             }
             catch (Exception ex)
             {
-
                 throw;
             }
         }
@@ -84,12 +97,8 @@ namespace WebApp.Controllers
         {
             try
             {
-                var item = unitOfWork.PostCategoryRepository.GetByID(id);
-                if (item != null)
-                {
-                    unitOfWork.PostCategoryRepository.Delete(item);
-                    unitOfWork.SaveChanges();
-                }
+                _PostCategoryService.Delete(id);
+                _PostCategoryService.SaveChange();
                 return Ok();
             }
             catch (Exception ex)

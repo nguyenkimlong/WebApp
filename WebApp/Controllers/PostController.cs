@@ -13,15 +13,15 @@ namespace WebApp.Controllers
     [Route("api/Post")]
     public class PostController : Controller
     {
-        private UnitOfWork unitOfWork = new UnitOfWork();
+      //  private UnitOfWork unitOfWork = new UnitOfWork();
 
         [HttpGet("Get")]
         public IActionResult GetAll()
         {
             try
             {
-                var list = unitOfWork.PostRepository.GetAll();
-                return Ok(list);
+               // var list = unitOfWork.PostRepository.GetAll();
+                return Ok(null);
             }
             catch (Exception ex)
             {
@@ -34,8 +34,8 @@ namespace WebApp.Controllers
         {
             try
             {
-                var item = unitOfWork.PostRepository.GetByID(id);
-                return Ok(item);
+               // var item = unitOfWork.PostRepository.GetByID(id);
+                return Ok(null);
             }
             catch (Exception ex)
             {
@@ -48,10 +48,10 @@ namespace WebApp.Controllers
         {
             try
             {
-                var item = unitOfWork.PostRepository.GetAll();
-                unitOfWork.PostRepository.Add(post);
-                unitOfWork.SaveChanges();
-                return Ok(item);
+                //var item = unitOfWork.PostRepository.GetAll();
+                //unitOfWork.PostRepository.Add(post);
+                //unitOfWork.SaveChanges();
+                return Ok(null);
             }
             catch (Exception ex)
             {
@@ -63,13 +63,13 @@ namespace WebApp.Controllers
         {
             try
             {
-                var Post = unitOfWork.PostRepository.GetByID(post.ID);
-                if (Post != null)
-                {
-                    unitOfWork.PostRepository.Update(post);
-                    unitOfWork.SaveChanges();
-                }
-                return Ok(Post);
+                //var Post = unitOfWork.PostRepository.GetByID(post.ID);
+                //if (Post != null)
+                //{
+                //    unitOfWork.PostRepository.Update(post);
+                //    unitOfWork.SaveChanges();
+                //}
+                return Ok(null);
             }
             catch (Exception ex)
             {
@@ -83,12 +83,12 @@ namespace WebApp.Controllers
         {
             try
             {
-                var item = unitOfWork.PostRepository.GetByID(id);
-                if (item != null)
-                {
-                    unitOfWork.PostRepository.Delete(item);
-                    unitOfWork.SaveChanges();
-                }
+                //var item = unitOfWork.PostRepository.GetByID(id);
+                //if (item != null)
+                //{
+                //    unitOfWork.PostRepository.Delete(item);
+                //    unitOfWork.SaveChanges();
+                //}
                 return Ok();
             }
             catch (Exception ex)
