@@ -17,22 +17,5 @@ namespace DAL.Infrastructure
         /// </summary>
         void RejectChanges();
         void Dispose();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }
