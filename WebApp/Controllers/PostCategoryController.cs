@@ -73,15 +73,15 @@ namespace WebApp.Controllers
                 if (PostCategory != null)
                 {
                     _PostCategoryService.Update(id, PostCategory);
-                    var a = (new PostCategory
-                    {
-                        ID=3,
-                        Alias ="1233",
-                        Status= true,
-                        Name="long1123"
-                    }
-                    );
-                    _PostCategoryService.Update(id, a);
+                    //var a = (new PostCategory
+                    //{
+                    //    ID=3,
+                    //    Alias ="1233",
+                    //    Status= true,
+                    //    Name="long1123"
+                    //}
+                    //);
+                    //_PostCategoryService.Update(id, a);
                     _PostCategoryService.SaveChange();
                 }
                 return Ok();

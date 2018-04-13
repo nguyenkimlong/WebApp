@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 using DataAccess;
 using DAL;
 using Microsoft.EntityFrameworkCore;
-
+using System.Reflection;
 
 namespace DAL.Infrastructure
 {
@@ -112,33 +112,12 @@ namespace DAL.Infrastructure
                 dbSet.Attach(entityToDelete);
             }
             dbSet.Remove(entityToDelete);
+
         }
 
         public virtual void Update(TEntity entityToUpdate)
         {
-            dbSet.Attach(entityToUpdate);
-            context.Entry(entityToUpdate).State = EntityState.Modified;
+            dbSet.Update(entityToUpdate);
         }
-        //public TObject AttachToAndGetIfExists<TObject>(TObject entity) where TObject : class
-        //{
-        //    var objContext = ((IObjectContextAdapter)context).ObjectContext;
-        //    var objSet = objContext.CreateObjectSet<TObject>();
-        //    var entityKey = objContext.CreateEntityKey(objSet.EntitySet.Name, entity);
-
-        //    var original = this.context.Set<TObject>().Find(entityKey.EntityKeyValues[0].Value);
-
-        //    if (original != null)
-        //    {
-        //        this.context.Entry<TObject>(original).CurrentValues.SetValues(entity);
-        //        return null;
-        //    }
-        //    else
-        //    {
-        //        objContext.AddObject(entityKey.EntitySetName, entity);
-        //        return null;
-        //    }
-        //    return null;
-        //}
-
     }
 }
